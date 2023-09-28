@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/songsWS-gabs-KBE/rest")
+@RequestMapping("/rest")
 public record SongListController (SongListService songListService){
 
     @GetMapping(path = "/songLists/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})

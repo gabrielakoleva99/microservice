@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.microservices.album.requests.AlbumRequest;
 @RestController
-@RequestMapping("/songsWS-gabs-KBE/rest/album")
+@RequestMapping("/rest/album")
 @RequiredArgsConstructor
 public class AlbumController {
 

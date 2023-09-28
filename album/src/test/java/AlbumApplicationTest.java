@@ -53,7 +53,7 @@ public class AlbumApplicationTest {
     @Order(1)
     void getWrongWithNonExistingId() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/album/100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/album/100"))
                 .andExpect(status().isNotFound());
 
     }
@@ -63,7 +63,7 @@ public class AlbumApplicationTest {
     void getAlbumByIdJson() throws Exception {
         String expectedJson = "{\"id\":1,\"name\":\"Live and More\",\"year\":1968,\"artist\":\"Richard Harris\",\"songs\":[]}";
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/album/{id}", 1))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/rest/album/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
@@ -77,7 +77,7 @@ public class AlbumApplicationTest {
         @Test
         @Order(3)
         void getAllAlbumsShouldSucceed() throws Exception {
-            mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/album")
+            mockMvc.perform(MockMvcRequestBuilders.get("/rest/album")
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
         }
@@ -88,7 +88,7 @@ public class AlbumApplicationTest {
 
         String expectedJson = "[{\"id\":1,\"name\":\"Live and More\",\"year\":1968,\"artist\":\"Richard Harris\",\"songs\":[]},{\"id\":2,\"name\":\"Starland Vocal Band\",\"year\":1976,\"artist\":\"Starland Vocal Band\",\"songs\":[]},{\"id\":3,\"name\":\"Song of Joy\",\"year\":1976,\"artist\":\"Muskrat Love\",\"songs\":[]}]";
 
-            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/album"))
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/rest/album"))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                     .andReturn();
@@ -108,7 +108,7 @@ public class AlbumApplicationTest {
             albumRequest.setName("Empty Album");
             albumRequest.setSongs(Collections.emptyList());
 
-            mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/album")
+            mockMvc.perform(MockMvcRequestBuilders.post("/rest/album")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(albumRequest)))
                     .andExpect(status().isNotFound());
@@ -127,7 +127,7 @@ public class AlbumApplicationTest {
 
             albumRequest.setSongs(songs);
 
-            mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/album")
+            mockMvc.perform(MockMvcRequestBuilders.post("/rest/album")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(albumRequest)))
                     .andExpect(status().isNotFound());
@@ -147,7 +147,7 @@ public class AlbumApplicationTest {
 
             albumRequest.setSongs(songs);
 
-            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/album")
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/rest/album")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(albumRequest)))
                     .andReturn();
@@ -156,7 +156,7 @@ public class AlbumApplicationTest {
             String str = result.getResponse().getHeader("location");
             System.out.println(str);
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/album/4"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/rest/album/4"))
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                     .andExpect(status().isOk());
         }
@@ -174,7 +174,7 @@ public class AlbumApplicationTest {
 
             albumRequest.setSongs(songs);
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/album/98").contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(MockMvcRequestBuilders.put("/rest/album/98").contentType(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(albumRequest)))
                     .andExpect(status().isNotFound());
@@ -189,7 +189,7 @@ public class AlbumApplicationTest {
             albumRequest.setName("Empty Album");
             albumRequest.setSongs(Collections.emptyList());
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/album/2").contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(MockMvcRequestBuilders.put("/rest/album/2").contentType(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(albumRequest)))
                     .andExpect(status().isNotFound());
@@ -210,7 +210,7 @@ public class AlbumApplicationTest {
 
             albumRequest.setSongs(songs);
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/album/2").contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(MockMvcRequestBuilders.put("/rest/album/2").contentType(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(albumRequest)))
                     .andExpect(status().isNotFound());
@@ -229,12 +229,12 @@ public class AlbumApplicationTest {
 
             albumRequest.setSongs(songs);
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/album/2").contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(MockMvcRequestBuilders.put("/rest/album/2").contentType(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(albumRequest)))
                     .andExpect(status().isOk());
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/album/2")
+            mockMvc.perform(MockMvcRequestBuilders.get("/rest/album/2")
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
         }
@@ -242,10 +242,10 @@ public class AlbumApplicationTest {
         @Test
     @Order(12)
     void deleteWorks() throws Exception {
-            mockMvc.perform(MockMvcRequestBuilders.delete("/songsWS-gabs-KBE/rest/album/1"))
+            mockMvc.perform(MockMvcRequestBuilders.delete("/rest/album/1"))
                     .andExpect(status().isNoContent());
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/album/1"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/rest/album/1"))
                     .andExpect(status().isNotFound());
         }
 

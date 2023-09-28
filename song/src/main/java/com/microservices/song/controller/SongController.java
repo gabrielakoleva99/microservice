@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/songsWS-gabs-KBE/rest")
+@RequestMapping("/rest")
 public record SongController(SongService songService) {
 
 

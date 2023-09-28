@@ -52,7 +52,7 @@ public class SongApplicationTest {
     void getAllSongsJson() throws Exception {
         String example = "[{\"id\":1,\"title\":\"MacArthur Park\",\"artist\":\"Richard Harris\",\"label\":\"Dunhill Records\",\"released\":\"1968\",\"album\":\"Live and More\"},{\"id\":2,\"title\":\"Afternoon Delight\",\"artist\":\"Starland Vocal Band\",\"label\":\"Windsong\",\"released\":\"1976\",\"album\":\"Starland Vocal Band\"},{\"id\":3,\"title\":\"Muskrat Love\",\"artist\":\"Captain and Tennille\",\"label\":\"A&M\",\"released\":\"1976\",\"album\":\"Song of Joy\"}]";
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songs"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/rest/songs"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
@@ -68,7 +68,7 @@ public class SongApplicationTest {
     void getSongByIdJson() throws Exception {
         String expectedJson = "{\"id\":1,\"title\":\"MacArthur Park\",\"artist\":\"Richard Harris\",\"label\":\"Dunhill Records\",\"released\":\"1968\",\"album\":\"Live and More\"}";
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songs/{id}", 1))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/rest/songs/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
@@ -82,7 +82,7 @@ public class SongApplicationTest {
     @Order(3)
     void getSongByIdJsonWrongId() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songs/100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/songs/100"))
                 .andExpect(status().isNotFound());
     }
 
@@ -91,14 +91,14 @@ public class SongApplicationTest {
     void postCorrectReturnUrl() throws Exception {
         String example = "{\"title\":\"Wrecking Ball\",\"artist\":\"MILEY CYRUS\",\"label\":\"RCA\",\"released\":2013}    \n";
         String expected = "Location: /songsWS-gabs-KBE/rest/songs?songId=4";
-        MvcResult result =  mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/songs").contentType(MediaType.APPLICATION_JSON)
+        MvcResult result =  mockMvc.perform(MockMvcRequestBuilders.post("/rest/songs").contentType(MediaType.APPLICATION_JSON)
                         .content(example))
                 .andReturn();
         Assertions.assertThat(result).isNotNull();
         String str = result.getResponse().getHeader("location");
         Assertions.assertThat(str).isEqualToIgnoringCase(expected);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songs/4")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songs/4")
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -109,7 +109,7 @@ public class SongApplicationTest {
     @Order(5)
     void postWrongWithoutTitle() throws Exception{
         String example = "{\"artist\":\"MILEY CYRUS\",\"label\":\"RCA\",\"released\":2013}    \n";
-        mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/songs").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(MockMvcRequestBuilders.post("/rest/songs").contentType(MediaType.APPLICATION_JSON)
                         .content(example))
                 .andExpect(status().isBadRequest());
 
@@ -119,11 +119,11 @@ public class SongApplicationTest {
     @Order(6)
     void putWorks200() throws Exception{
         String example = "{\"id\":\"1\",\"title\":\"Wrecking Ball\",\"artist\":\"MILEY CYRUS\",\"label\":\"RCA\",\"released\":2013}    \n";
-        mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/songs/1").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(MockMvcRequestBuilders.put("/rest/songs/1").contentType(MediaType.APPLICATION_JSON)
                         .content(example))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songs/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songs/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -134,7 +134,7 @@ public class SongApplicationTest {
     @Order(7)
     void putWrongWithNonExistingIdInURL() throws Exception{
         String example = "{\"id\":\"1\",\"title\":\"Wrecking Ball\",\"artist\":\"MILEY CYRUS\",\"label\":\"RCA\",\"released\":2013}    \n";
-        mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/songs/50").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(MockMvcRequestBuilders.put("/rest/songs/50").contentType(MediaType.APPLICATION_JSON)
                         .content(example))
                 .andExpect(status().isNotFound());
     }
@@ -143,10 +143,10 @@ public class SongApplicationTest {
     @Order(8)
     void deleteWorks204() throws Exception{
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/songsWS-gabs-KBE/rest/songs/4"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/rest/songs/4"))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songs/4"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songs/4"))
                 .andExpect(status().isNotFound());
 
     }
@@ -154,7 +154,7 @@ public class SongApplicationTest {
         @Test
     @Order(9)
     void deleteWrongWithNonExistingId() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.delete("/songsWS-gabs-KBE/rest/songs/20"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/rest/songs/20"))
                 .andExpect(status().isNotFound());
     }
     }

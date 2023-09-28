@@ -19,7 +19,7 @@ import java.util.List;
 public record AlbumService(RestTemplate restTemplate, AlbumRepository albumRepository) {
 
     private SongResponse findSongById(int id) {
-        String path = "http://SONG/songsWS-gabs-KBE/rest/songs";
+        String path = "http://SONG-SERVICE/rest/songs";
         ParameterizedTypeReference<List<SongResponse>> responseType = new ParameterizedTypeReference<List<SongResponse>>() {
         };
         ResponseEntity<List<SongResponse>> responseEntity = restTemplate.exchange(path, HttpMethod.GET, null, responseType);

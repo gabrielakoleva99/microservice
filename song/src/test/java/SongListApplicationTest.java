@@ -59,13 +59,13 @@ public class SongListApplicationTest {
     @Test
     @Order(1)
     void getWrongWithNonExistingId() throws Exception {
-        String token = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String token = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", token);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists/100")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists/100")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", token))
@@ -77,14 +77,14 @@ public class SongListApplicationTest {
     @Test
     public void testGetSongList_UnsuccessfulAuthorization_ReturnsUnauthorized() throws Exception {
 
-        String token = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String token = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", token);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists/3")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists/3")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", token))
@@ -101,7 +101,7 @@ public class SongListApplicationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", token);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists/3")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists/3")
                         .param("userId", "jane")
                         .param("password", "pass1234")
                         .header("Authorization", token))
@@ -118,7 +118,7 @@ public class SongListApplicationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", janesToken);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists/2")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists/2")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", janesToken))
@@ -128,13 +128,13 @@ public class SongListApplicationTest {
     @Test
     @Order(5)
     void getALlSongListsVonMaximeShouldBeSuccessfull() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", maximesToken);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists")
                         .param("userId", "jane")
                         .param("password", "pass1234")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -146,13 +146,13 @@ public class SongListApplicationTest {
     @Test
     @Order(6)
     void getALlSongListsNonExististingUser() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", maximesToken);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists")
                         .param("userId", "blob")
                         .param("password", "pass1234")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -165,7 +165,7 @@ public class SongListApplicationTest {
     @Test
     @Order(7)
     void registerSongListWithValidTokenAndValidRequest() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -188,7 +188,7 @@ public class SongListApplicationTest {
 
         songs.add(song);
         request.setSongs(songs);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/songLists")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/rest/songLists")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request))
                         .header("Authorization", maximesToken))
@@ -198,7 +198,7 @@ public class SongListApplicationTest {
         String str = result.getResponse().getHeader("location");
         System.out.println(str);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists/5")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists/5")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", maximesToken))
@@ -208,7 +208,7 @@ public class SongListApplicationTest {
     @Test
     @Order(8)
     void registerSongListWithInvalidToken() throws Exception {
-        String maximesTokenInvalid = "N0FlE_wwjoCG2mfqLPYq0NP";
+        String maximesTokenInvalid = "_fjCBxLhv2IVdVsECB6URWPNSXH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -222,7 +222,7 @@ public class SongListApplicationTest {
         songs.add(new Song(9, "Song 2", "Artist 2", "label 2", "2006", "Album 2"));
         request.setSongs(songs);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/songLists")
+        mockMvc.perform(MockMvcRequestBuilders.post("/rest/songLists")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request))
                         .header("Authorization", maximesTokenInvalid))
@@ -232,7 +232,7 @@ public class SongListApplicationTest {
     @Test
     @Order(9)
     void registerSongListWithEmptySongs() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -243,7 +243,7 @@ public class SongListApplicationTest {
         request.setPrivate(true);
         request.setSongs(Collections.emptyList());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/songsWS-gabs-KBE/rest/songLists")
+        mockMvc.perform(MockMvcRequestBuilders.post("/rest/songLists")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request))
                         .header("Authorization", maximesToken))
@@ -253,7 +253,7 @@ public class SongListApplicationTest {
     @Test
     @Order(10)
     void putSongListWorksReturns200() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -277,13 +277,13 @@ public class SongListApplicationTest {
         songs.add(song);
         request.setSongs(songs);
         System.out.println(request);
-        mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/songLists/1").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(MockMvcRequestBuilders.put("/rest/songLists/1").contentType(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request))
                         .header("Authorization", maximesToken))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists/1")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", maximesToken))
@@ -294,7 +294,7 @@ public class SongListApplicationTest {
     @Test
     @Order(11)
     void putSongListNonExistingId() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -318,7 +318,7 @@ public class SongListApplicationTest {
         songs.add(song);
         request.setSongs(songs);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/songLists/98").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(MockMvcRequestBuilders.put("/rest/songLists/98").contentType(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request))
                         .header("Authorization", maximesToken))
@@ -328,7 +328,7 @@ public class SongListApplicationTest {
     @Test
     @Order(12)
     void putWithEmptySongList() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -339,7 +339,7 @@ public class SongListApplicationTest {
         request.setPrivate(true);
         request.setSongs(Collections.emptyList());
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/songsWS-gabs-KBE/rest/songLists/1")
+        mockMvc.perform(MockMvcRequestBuilders.put("/rest/songLists/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request))
                         .header("Authorization", maximesToken))
@@ -349,19 +349,19 @@ public class SongListApplicationTest {
     @Test
     @Order(13)
     void deleteWorks() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", maximesToken);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/songsWS-gabs-KBE/rest/songLists/1")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/rest/songLists/1")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", maximesToken))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/songsWS-gabs-KBE/rest/songLists/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/songLists/1")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", maximesToken))
@@ -371,13 +371,13 @@ public class SongListApplicationTest {
     @Test
     @Order(9)
     void deleteWrongWithNonExistingId() throws Exception {
-        String maximesToken = "N0FlE_wwjoCG2mfqLPYq0NP8TIco8vb-";
+        String maximesToken = "_fjCBxLhv2IVdVsECB6URWPNSX18FRwH";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", maximesToken);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/songsWS-gabs-KBE/rest/songLists/67")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/rest/songLists/67")
                         .param("userId", "maxime")
                         .param("password", "pass1234")
                         .header("Authorization", maximesToken))
